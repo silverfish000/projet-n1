@@ -17,10 +17,10 @@ def aff_menu() :
     print("-="*35)
     print("GESTIONNAIRE DE MOT DE PASSE".center(65))
     print("-="*35)
-    print("by Silver & Squash")
-    print("1) Ajouter un mot de passe")
-    print("2) Modifier un mot de passe")
-    print("3) Supprimer un mot de passe")
+    print("by Silver & Squash\n")
+    print("1) Ajouter un mot de passe\n")
+    print("2) Modifier un mot de passe\n")
+    print("3) Supprimer un mot de passe\n")
     
     
 
@@ -36,3 +36,7 @@ def add_mdp() :
             print("ERREUR : Tu ne dois que choisir des nombres")
     
 add_mdp()
+
+
+
+# _0_
