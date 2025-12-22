@@ -4,7 +4,10 @@ import time
 
 
 # ------------ db de categories et tout les mots de passes (non chiffres) ------------
-dictionnaire_test = {
+dictionnaire_admin = {
+    'categories_mot_de_passe' : [""]
+}
+dictionnaire_auto = {
     'categories_mot_de_passe' : ["Netflix", "Amazon", "Github"]
 }
 # ------------ FIN ------------
@@ -13,7 +16,7 @@ dictionnaire_test = {
 def clear() :
     os.system('cls' if os.name == 'nt' else 'clear')
 
-def admin_choix(categories) : # pour plus tard
+def admin_choix(categorie, categorie_auto) : # pour plus tard
     clear()
     print("-="*35)
     print("GESTIONNAIRE DES CHOIX UTILISATEURS (ONLY ADMIN)".center(65))
@@ -25,22 +28,24 @@ def admin_choix(categories) : # pour plus tard
         # Verification du choix ADMIN
             if (choix_admin_categories == 'auto') :
                 print("Tu as choisis la fonction 'auto' le systeme va le mettre en place")
-                # Systeme auto declenchement
+                # Systeme auto declenchement a mettre
                 time.sleep(2)
             else :
                 print("Pour arreter : tape 'STOP'\n")
                 if (choix_admin_categories == 'STOP') :
+                    print("tu viens de taper 'STOP' tu vas etre rediriger vers le menu dans quelques secondes ...")
+                    time.sleep(2)
                     break
-                elif (choix_admin_categories in categories['categories_mot_de_passe']):
+                elif (choix_admin_categories in categorie['categories_mot_de_passe']):
                             clear()
                             print(f"La categorie '{choix_admin_categories}' existe deja\n")
                 else :
-                    categories['categories_mot_de_passe'].append(choix_admin_categories)
+                    categorie['categories_mot_de_passe'].append(choix_admin_categories)
                     clear()
                     print(f"La categorie '{choix_admin_categories}' a bien etait rajoutee !\n")
 
 
-admin_choix(dictionnaire_test)
+admin_choix(dictionnaire_auto, dictionnaire_auto)
 
 def aff_menu() :
     clear()
@@ -67,7 +72,7 @@ def aff_menu() :
 
 
 
-def add_mdp(choix_user, categorie) :
+def add_mdp(choix_user) :
     if (choix_user == 1) :
         input("Choisis")
     elif (choix_user == 2) :
@@ -76,7 +81,7 @@ def add_mdp(choix_user, categorie) :
         print("Tu as choisis l'option 3")
 choix = aff_menu()
 
-add_mdp(choix, dictionnaire_test)
+add_mdp(choix)
 
 
 # _0_
