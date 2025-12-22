@@ -9,6 +9,7 @@ def admin_choix() :
     print("-="*35)
     print("GESTIONNAIRE DES CHOIX UTILISATEURS (ONLY ADMIN)".center(65))
     print("-="*35)
+    print()
 
 
 def aff_menu() :
@@ -17,7 +18,9 @@ def aff_menu() :
     print("GESTIONNAIRE DE MOT DE PASSE".center(65))
     print("-="*35)
     print("by Silver & Squash")
-    admin_choix()
+    print("1) Ajouter un mot de passe")
+    print("2) Modifier un mot de passe")
+    print("3) Supprimer un mot de passe")
     
     
 
