@@ -1,3 +1,5 @@
+import time
+
 def verif_mdp(mot_de_passe, dictionnaire):
     
     if len(mot_de_passe) < 8:
@@ -52,9 +54,11 @@ def demander_mdp_valide(categorie_nom, dictionnaire):
         
         if valide:
             print(f"\n {message}")
+            time.sleep(1)
             return nouveau_mdp
         else:
             print(f"\n Erreur : {message}")
             print("\nRecommence !\n")
+            time.sleep(1)
 
 # _0_

@@ -113,18 +113,28 @@ def add_mdp(dictionnaire) :
         print("="*75)
         print(" AJOUT MOT DE PASSE ".center(75, "/"))
         print("="*75)
-        print("Tapes sur 'Q' pour quitter\n")
-        print(f"Voici la liste des categories de {pseudo} : \n")
-        noms_base = [tuples[0] for tuples in dictionnaire_auto_add['categories_mot_de_passe']]
-        for i in noms_base :
-            print(f"- {i} ", end="")
-        print()
-        choix_user_categorie = input("\nParmi les catégories ci-dessus, choisis-en une : ")
-        noms_categories = [tuples[0].lower() for tuples in dictionnaire_auto_add['categories_mot_de_passe']]
-        if (choix_user_categorie.lower() in noms_categories) :
-                choix_user_mdp = demander_mdp_valide(choix_user_categorie, dictionnaire)
+        print("1) AJOUTER UN MOT DE PASSE\n")
+        print("2) QUITTER (Retour au menu)")
+        choix_user_add_mdp = int(input(""))
+        if (choix_user_add_mdp == 1) :
+            clear()
+            print(f"Voici la liste des categories de {pseudo} : \n")
+            noms_base = [tuples[0] for tuples in dictionnaire_auto_add['categories_mot_de_passe']]
+            for i in noms_base :
+                print(f"- {i} ", end="")
+            print()
+            choix_user_categorie = input("\nParmi les catégories ci-dessus, choisis-en une : ")
+            noms_categories = [tuples[0].lower() for tuples in dictionnaire_auto_add['categories_mot_de_passe']]
+            if (choix_user_categorie.lower() in noms_categories) :
+                    demander_mdp_valide(choix_user_categorie, dictionnaire)
+            else :
+                print(f"ERREUR : la categorie '{choix_user_categorie}' est inexistante")
+                time.sleep(2)
+        elif (choix_user_add_mdp == 2) :
+            clear()
+            break
         else :
-            print(f"ERREUR : la categorie '{choix_user_categorie}' est inexistante")
+            print("ERREUR : (ONLY 1 / 2)")
             time.sleep(2)
 
 def supp_mdp(dictionnaire) :
@@ -138,10 +148,10 @@ def aff_menu() :
         print("GESTIONNAIRE DE MOT DE PASSE".center(65))
         print("-="*35)
         print("by Silver\n")
-        print("1 - Ajouter un mot de passe\n")
-        print("2 - Modifier un mot de passe\n")
-        print("3 - Supprimer un mot de passe\n")
-        print("4 - Admin Choix (ONLY ADMIN)\n")
+        print("1 - Ajouter un mot de passe (v1 pas fini)\n")
+        print("2 - Modifier un mot de passe (in build)\n")
+        print("3 - Supprimer un mot de passe (in build)\n")
+        print("4 - Admin Choix (ONLY ADMIN) (v1 fini)\n")
         print("5 - QUITTER\n")
         try :
             choix_user = int(input("Fais ton choix (QUE DES CHIFFRES) :"))
