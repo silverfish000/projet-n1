@@ -50,8 +50,8 @@ def admin_choix() :
                 print("tu viens de taper 'STOP' tu vas etre rediriger vers le menu dans quelques secondes ...")
                 time.sleep(2)
                 print(dictionnaire_auto_add and dictionnaire_auto)
-                aff_menu()
-            elif (choix_admin_categories in dictionnaire_auto_add['categories_mot_de_passe']):
+                break
+            elif (choix_admin_categories in dictionnaire_auto_add['categories_mot_de_passe'] ):
                         clear()
                         print(f"🔴 La categorie '{choix_admin_categories}' existe deja\n")
             else :
@@ -59,13 +59,15 @@ def admin_choix() :
                 clear()
                 print(f"✅ La categorie '{choix_admin_categories}' a bien etait rajoutee !\n")
 
-def add_mdp(choix_user) : # a faire plus tard 
-    if (choix_user == 1) :
-        input("Choisis")
-    elif (choix_user == 2) :
-        print("Tu as choisis l'option 2")
-    else :
-        print("Tu as choisis l'option 3")
+def add_mdp(dictionnaire) :
+    clear()
+    print("="*75)
+    print(" AJOUT MOT DE PASSE ".center(75, "/"))
+    print("="*75)
+    print("Voici la liste des categories de user : \n")
+    for i in dictionnaire['categories_mot_de_passe']:
+        print(f"- {i} ", end="")
+    input("")
 
 def supp_mdp(choix_user) :
     print(choix_user)
@@ -85,43 +87,37 @@ def aff_menu() :
         print("5 - QUITTER\n")
         try :
             choix_user = int(input("Fais ton choix (QUE DES CHIFFRES) :"))
-        except ValueError :
-            print("ERREUR : Tu ne dois que choisir des nombres")
-        if (choix_user == 1) :
-            add_mdp()
-        elif (choix_user == 2) :
-            print("Tu as choisis l'option 2")
-            # Ajouter le systeme modif_mdp
-        elif (choix_user == 3) :
-            print("Tu as choisis l'option 3")
-            # Ajouter le systeme supp_mdp
-        elif (choix_user == 4) :
-            print("Tu as choisis l'option 4")
-            admin_choix()
-        elif (choix_user == 5) :
-            while (True) :
-                clear()
-                decision_quitter = input("Vous etes sur de vouloir quitter ? (o/n)")
-                if (decision_quitter.lower() == 'o') :
+            if (choix_user == 1) :
+                add_mdp(dictionnaire_auto_add)
+            elif (choix_user == 2) :
+                print("Tu as choisis l'option 2")
+                # Ajouter le systeme modif_mdp
+            elif (choix_user == 3) :
+                print("Tu as choisis l'option 3")
+                # Ajouter le systeme supp_mdp
+            elif (choix_user == 4) :
+                print("Tu as choisis l'option 4")
+                admin_choix()
+            elif (choix_user == 5) :
+                while (True) :
                     clear()
-                    print("A la prochaine mon bro !!!!")
-                    time.sleep(1.5)
-                    exit()
-                elif (decision_quitter.lower() == 'n') :
-                    break
-                else :
-                    print("ERREUR : ONLY (o/n)")
-                    time.sleep(2)
-        else :
-            clear()
-            print("ERREUR : ONLY (1 - 5)")
-            time.sleep(2)
-            break
-
-
-
-
-choix = aff_menu()
+                    decision_quitter = input("Vous etes sur de vouloir quitter ? (o/n)")
+                    if (decision_quitter.lower() == 'o') :
+                        clear()
+                        print("A la prochaine mon bro !!!!")
+                        time.sleep(1.5)
+                        exit()
+                    elif (decision_quitter.lower() == 'n') :
+                        break
+                    else :
+                        print("ERREUR : ONLY (o/n)")
+                        time.sleep(2)
+            else :
+                clear()
+                print("ERREUR : ONLY (1 - 5)")
+                time.sleep(2)
+        except ValueError :
+            print()
 
 aff_menu()
 
