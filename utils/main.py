@@ -1,7 +1,7 @@
 import os
 import time
 from verif_mdp import verif_mdp
-from config import dictionnaire_auto, dictionnaire_auto_add
+from config import dictionnaire_auto, dictionnaire_auto_add, dictionnaire_interdit
 
 def clear() :
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -9,11 +9,12 @@ def clear() :
 def admin_choix() :
     global dictionnaire_auto
     global dictionnaire_auto_add
+    global choix_admin_categories
     clear()
-    print("="*70)
-    print(" CONFIGURATION ADMIN ".center(70, "═"))
-    print("="*70)
     while (True) :
+        print("="*70)
+        print(" CONFIGURATION ADMIN ".center(70, "═"))
+        print("="*70)
         print(f"\n Catégories actuelles : {', '.join(dictionnaire_auto_add['categories_mot_de_passe'])}")
         print("-" * 30)
         print("- Tapez le NOM d'une catégorie pour l'ajouter")
@@ -23,20 +24,28 @@ def admin_choix() :
         choix_admin_categories = input("Ecris ton choix -->")
         clear()
         if (choix_admin_categories.lower() == 'auto') :
-            if (dictionnaire_auto == dictionnaire_auto_add) :
-                print("Le systeme 'auto' est deja activer sur ta machine")
-                time.sleep(2)
+            choix_user_auto = input("ATTENTION TA LISTE QUE TU AS CREER VA ETRE SUPPRIMEE TU ES SUR QUE TU VEUX CONTINUER ? (o/n)")
+            if (choix_user_auto.lower() == 'o') :
+                if (dictionnaire_auto == dictionnaire_auto_add) :
+                    print("Le systeme 'auto' est deja activer sur ta machine")
+                    time.sleep(2)
+                else :
+                    print("Tu as choisis la fonction 'auto' le systeme va le mettre en place")
+                    dictionnaire_auto_add = dictionnaire_auto
+                    time.sleep(2)
+            elif (choix_user_auto.lower() == 'n') :
+                clear()
             else :
-                print("Tu as choisis la fonction 'auto' le systeme va le mettre en place")
-                dictionnaire_auto_add = dictionnaire_auto
-                time.sleep(2)
+                print("ERREUR : ONLY (o/n)")
+        elif (choix_admin_categories.lower() == 'stop') :
+            print("tu viens de taper 'STOP' tu vas etre rediriger vers le menu dans quelques secondes ...")
+            time.sleep(2)
+            break
         else :
-            print("Pour arreter : tape 'STOP'\n")
-            if (choix_admin_categories.lower() == 'stop') :
-                print("tu viens de taper 'STOP' tu vas etre rediriger vers le menu dans quelques secondes ...")
-                time.sleep(2)
-                print(dictionnaire_auto_add and dictionnaire_auto)
-                break
+            if (choix_admin_categories.lower() in dictionnaire_interdit['categories_mots_interdits']) :
+                print(f"ATTENTION : '{choix_admin_categories}' est un mot interdit")
+                time.sleep(3)
+                clear()
             elif (choix_admin_categories in dictionnaire_auto_add['categories_mot_de_passe'] ):
                         clear()
                         print(f"🔴 La categorie '{choix_admin_categories}' existe deja\n")
