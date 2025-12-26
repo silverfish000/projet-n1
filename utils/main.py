@@ -1,3 +1,5 @@
+from dotenv import load_dotenv
+load_dotenv()
 import os
 import time
 from verif_mdp import verif_mdp, demander_mdp_valide
@@ -11,30 +13,56 @@ def clear() :
 def code_admin_verif() :
     clear()
     print("VERIFICATION CODE ADMIN".center(70, "="))
+    essai = 3
     code_admin_input = input("Entre le code ADMIN : ")
-    if (code_admin_input == "SILVER2024") :
+    if (code_admin_input == os.getenv("APP.PASSWORD")) :
         print("Code ADMIN valide tu vas etre rediriger vers le menu ADMIN")
         time.sleep(2)
         return True
     else :
-        print("ERREUR : Code ADMIN invalide tu vas etre rediriger vers le menu principal")
+        while (essai > 1) :
+            essai -= 1
+            clear()
+            print("VERIFICATION CODE ADMIN".center(70, "="))
+            code_admin_input = input("ERREUR : Code ADMIN invalide, re-essaye : ")
+            if (code_admin_input == os.getenv("APP.PASSWORD")) :
+                print("Code ADMIN valide tu vas etre rediriger vers le menu ADMIN")
+                time.sleep(2)
+                return True
+        clear()
+        print("VERIFICATION CODE ADMIN".center(70, "="))
+        print("ERREUR : Trop d'essais, retour au menu principal")
         time.sleep(2)
         return False
 
 
 def tutoriel() :
     clear()
-    print("TUTORIEL PASSWORLD".center(70, "="))
-    print("""
-Bienvenue dans le tutoriel de PASSWORLD !
-Voici les différentes fonctionnalités disponibles :
-- Ajouter un mot de passe : Permet d'ajouter un nouveau mot de passe à une catégorie existante.
-- Modifier un mot de passe : Permet de modifier un mot de passe existant.
-- Supprimer un mot de passe : Permet de supprimer un mot de passe d'une catégorie.
-- Admin Choix : Permet à l'administrateur de gérer les catégories de mots de passe.
-Prends le temps de te familiariser avec l'interface et les options disponibles.
-Amuse-toi bien avec PASSWORLD !
-""")
+    print("TUTORIEL PASSWORLD".center(70, "=")) # Tutoriel interactif
+    print("\nBienvenue dans le tutoriel de PASSWORLD !\n")
+    print("Ici, tu apprendras a utiliser les fonctionnalites principales de l'application.\n")
+    time.sleep(1.5)
+    print("1) Ajouter un mot de passe :")
+    time.sleep(0.5)
+    print("- Pour ajouter un mot de passe, selectionne l'option 'Ajouter un mot de passe' dans le menu principal.")
+    time.sleep(0.5)
+    print("- Choisis une categorie existante ou cree-en une nouvelle.")
+    time.sleep(0.5)
+    print("- Entre un mot de passe qui respecte les criteres de securite.")
+    time.sleep(0.5)
+    print("- Confirme l'ajout du mot de passe.\n")
+    time.sleep(0.5)
+    print("\n2) Gerer les mots de passe :")
+    time.sleep(1.5)
+    print("- Pour gerer tes mots de passe, selectionne l'option 'Gerer les mots de passe' dans le menu principal.")
+    time.sleep(0.5)
+    print("- Tu pourras modifier, supprimer ou rechercher des mots de passe existants.")
+    time.sleep(0.5)
+    print("- Suis les instructions a l'ecran pour effectuer les actions desirees.\n")
+    time.sleep(0.5)
+    print("N'hesite pas a consulter ce tutoriel a tout moment depuis le menu principal si tu as besoin d'aide.\n")
+    print("Bonne gestion de tes mots de passe avec PASSWORLD !")
+    time.sleep(2)
     input("Appuie sur Entrée pour continuer...")
 tutoriel()
 
@@ -52,14 +80,32 @@ def bonjour() :
 
     print("by Silver".center(72))
     print("-="*40)
-    pseudo = input("Quel est ton pseudo ?")
+    while (True) :
+        pseudo = input("Quel est ton pseudo ? ")
+        if (len(pseudo) < 3 or len(pseudo) > 15) :
+            clear()
+            print("ERREUR : Ton pseudo doit contenir entre 3 et 15 caracteres")
+            time.sleep(2)
+        elif (not pseudo.isalnum()) :
+            clear()
+            print("ERREUR : Ton pseudo ne doit contenir que des caracteres alphanumeriques (lettres et chiffres)")
+            time.sleep(2)
+        elif (pseudo.lower() in dictionnaire_interdit['categories_mots_interdits']) :
+            clear()
+            print(f"ERREUR : Le pseudo '{pseudo}' est interdit, choisis-en un autre")
+            time.sleep(2)
+        else :
+            print(f"Bienvenue {pseudo} ! Tu vas etre rediriger vers le menu principal dans quelques secondes ...")
+            time.sleep(2)
+            break
+    clear()
     while (True) :
         code_admin = input("As-tu un code ADMIN ou un code de triche ? (o/n)")
         if (code_admin.lower() == 'o') :
             clear()
             if (code_admin_verif()) :
                 print("Code de triche active")
-                menu_admin()
+                menu_admin() # code de triche & admin panel
                 time.sleep(1)
                 break
         elif (code_admin.lower() == 'n') :
@@ -156,19 +202,24 @@ def add_mdp(dictionnaire) :
         print("1) AJOUTER UN MOT DE PASSE\n")
         print("2) QUITTER (Retour au menu)")
         choix_user_add_mdp = int(input(""))
-        if (choix_user_add_mdp == 1) :
+        if (choix_user_add_mdp == 1) : # Ajouter un mot de passe
             clear()
-            print(f"Voici la liste des categories de {pseudo} : \n")
-            noms_base = [tuples[0] for tuples in dictionnaire_auto_add['categories_mot_de_passe']]
-            for i in noms_base :
-                print(f"- {i} ", end="")
-            print()
-            choix_user_categorie = input("\nParmi les catégories ci-dessus, choisis-en une : ")
-            noms_categories = [tuples[0].lower() for tuples in dictionnaire_auto_add['categories_mot_de_passe']]
-            if (choix_user_categorie.lower() in noms_categories) :
-                    demander_mdp_valide(choix_user_categorie, dictionnaire)
-            else :
-                print(f"ERREUR : la categorie '{choix_user_categorie}' est inexistante")
+            print("AJOUTER UN MOT DE PASSE".center(75, "-"))
+            noms = [caca['name'] for caca in dictionnaire]
+            print(f"\n Catégories actuelles : {', '.join(noms)}")
+            print("-" * 30)
+            categorie_nom = input("Dans quelle catégorie veux-tu ajouter un mot de passe ? ")
+            categorie_trouve = False
+            for categorie in dictionnaire :
+                if categorie['name'].lower() == categorie_nom.lower() :
+                    categorie_trouve = True
+                    nouveau_mdp = demander_mdp_valide(categorie_nom, dictionnaire_auto)
+                    categorie['mdp'] = nouveau_mdp
+                    print(f"\n Le mot de passe pour la catégorie '{categorie_nom}' a été ajouté/modifié avec succès.")
+                    time.sleep(2)
+                    break
+            if not categorie_trouve :
+                print(f"\n ERREUR : La catégorie '{categorie_nom}' n'existe pas.")
                 time.sleep(2)
         elif (choix_user_add_mdp == 2) :
             clear()
@@ -176,6 +227,7 @@ def add_mdp(dictionnaire) :
         else :
             print("ERREUR : (ONLY 1 / 2)")
             time.sleep(2)
+            
 
 def gerer_mdp(dictionnaire) :
     while (True) :
@@ -189,10 +241,9 @@ def gerer_mdp(dictionnaire) :
         print("4) Afficher tous les mots de passe (in build)\n")
         print("5) QUITTER (Retour au menu)")
         choix_user_gerer_mdp = int(input(""))
-        if (choix_user_gerer_mdp == 1) :
+        if (choix_user_gerer_mdp == 1) : # Ajouter un mot de passe
             clear()
-            print("MODIFIER UN MOT DE PASSE".center(75, "-"))
-            # Ajouter le systeme modifier_mdp
+            add_mdp(dictionnaire)
             input("Appuie sur Entrée pour continuer...")
         elif (choix_user_gerer_mdp == 2) :
             clear()
