@@ -7,14 +7,13 @@ dictionnaire_auto = {
         ("Google", ""), 
         ("Facebook", ""), 
         ("Spotify", ""), 
-        ("Steam", ""), 
-        ("Adobe", ""), 
+        ("Steam", ""),
+        ("Adobe", ""),
         ("LinkedIn", ""), 
         ("Instagram", ""), 
         ("Discord", "")
     ]
 }
-
 
 '''dictionnaire_auto_add =[
         ("Netflix", ""),

@@ -6,6 +6,38 @@ from config import dictionnaire_auto, dictionnaire_auto_add, dictionnaire_interd
 def clear() :
     os.system('cls' if os.name == 'nt' else 'clear')
 
+
+
+def code_admin_verif() :
+    clear()
+    print("VERIFICATION CODE ADMIN".center(70, "="))
+    code_admin_input = input("Entre le code ADMIN : ")
+    if (code_admin_input == "SILVER2024") :
+        print("Code ADMIN valide tu vas etre rediriger vers le menu ADMIN")
+        time.sleep(2)
+        return True
+    else :
+        print("ERREUR : Code ADMIN invalide tu vas etre rediriger vers le menu principal")
+        time.sleep(2)
+        return False
+
+
+def tutoriel() :
+    clear()
+    print("TUTORIEL PASSWORLD".center(70, "="))
+    print("""
+Bienvenue dans le tutoriel de PASSWORLD !
+Voici les différentes fonctionnalités disponibles :
+- Ajouter un mot de passe : Permet d'ajouter un nouveau mot de passe à une catégorie existante.
+- Modifier un mot de passe : Permet de modifier un mot de passe existant.
+- Supprimer un mot de passe : Permet de supprimer un mot de passe d'une catégorie.
+- Admin Choix : Permet à l'administrateur de gérer les catégories de mots de passe.
+Prends le temps de te familiariser avec l'interface et les options disponibles.
+Amuse-toi bien avec PASSWORLD !
+""")
+    input("Appuie sur Entrée pour continuer...")
+tutoriel()
+
 def bonjour() :
     clear()
     print("-="*40)
@@ -25,9 +57,11 @@ def bonjour() :
         code_admin = input("As-tu un code ADMIN ou un code de triche ? (o/n)")
         if (code_admin.lower() == 'o') :
             clear()
-            print("Code de triche active")
-            time.sleep(1)
-            break
+            if (code_admin_verif()) :
+                print("Code de triche active")
+                menu_admin()
+                time.sleep(1)
+                break
         elif (code_admin.lower() == 'n') :
             clear()
             print("Code de triche desactive")
@@ -40,7 +74,7 @@ def bonjour() :
         choix_user = input("Veux-tu faire le tutoriel ? (o/n)")
         if (choix_user.lower() == 'o') :
             clear()
-            print("Tutoriel active")
+            tutoriel()
             time.sleep(1)
             break
         elif (choix_user.lower() == 'n') :
@@ -54,6 +88,9 @@ def bonjour() :
     return pseudo
 
 pseudo = bonjour() # Bienvenue sur PASSWORLD
+
+
+
 
 def admin_choix(pseudo) :
     global dictionnaire_auto
@@ -103,10 +140,12 @@ def admin_choix(pseudo) :
             elif (choix_admin_categories in noms_existants):
                 clear()
                 print(f"🔴 La categorie '{choix_admin_categories}' existe deja\n")
+                time.sleep(2)
             else :
                 dictionnaire_auto_add['categories_mot_de_passe'].append((choix_admin_categories, mdp))
                 clear()
                 print(f"✅ La categorie '{choix_admin_categories}' a bien etait rajoutee !\n")
+                time.sleep(2)
 
 def add_mdp(dictionnaire) :
     while (True) :
@@ -138,14 +177,34 @@ def add_mdp(dictionnaire) :
             print("ERREUR : (ONLY 1 / 2)")
             time.sleep(2)
 
-def supp_mdp(dictionnaire) :
-    print(dictionnaire)
-
-def modif_mdp(dictionnaire) :
-    print(dictionnaire)
-
-def aff_mdp(dictionnaire) :
-    print(dictionnaire)
+def gerer_mdp(dictionnaire) :
+    while (True) :
+        clear()
+        print("="*75)
+        print(" GERER MOT DE PASSE ".center(75, "/"))
+        print("="*75)
+        print("1) MODIFIER UN MOT DE PASSE\n")
+        print("2) SUPPRIMER UN MOT DE PASSE\n")
+        print("3) RECHERCHER UN MOT DE PASSE (in build)\n")
+        print("4) Afficher tous les mots de passe (in build)\n")
+        print("5) QUITTER (Retour au menu)")
+        choix_user_gerer_mdp = int(input(""))
+        if (choix_user_gerer_mdp == 1) :
+            clear()
+            print("MODIFIER UN MOT DE PASSE".center(75, "-"))
+            # Ajouter le systeme modifier_mdp
+            input("Appuie sur Entrée pour continuer...")
+        elif (choix_user_gerer_mdp == 2) :
+            clear()
+            print("SUPPRIMER UN MOT DE PASSE".center(75, "-"))
+            # Ajouter le systeme supprimer_mdp
+            input("Appuie sur Entrée pour continuer...")
+        elif (choix_user_gerer_mdp == 3) :
+            clear()
+            break
+        else :
+            print("ERREUR : (ONLY 1 / 2 / 3)")
+            time.sleep(2)
 
 def aff_menu() :
     while (True) :
@@ -155,17 +214,16 @@ def aff_menu() :
         print("-="*35)
         print("by Silver\n")
         print("1 - Ajouter un mot de passe (v1 pas fini)\n")
-        print("2 - Modifier un mot de passe (in build)\n")
-        print("3 - Supprimer un mot de passe (in build)\n")
-        print("4 - Admin Choix (ONLY ADMIN) (v1 fini)\n")
-        print("5 - QUITTER\n")
+        print("2 - Gerer les mots de passes (in build)\n")
+        print("4 - Paramètres (in build)\n")
+        print("5 - Tutoriel (in build)\n")
+        print("6 - Quitter\n")
         try :
             choix_user = int(input("Fais ton choix (QUE DES CHIFFRES) :"))
             if (choix_user == 1) :
                 add_mdp(dictionnaire_auto_add)
             elif (choix_user == 2) :
-                print("Tu as choisis l'option 2")
-                # Ajouter le systeme modif_mdp
+                gerer_mdp(dictionnaire_auto_add)
             elif (choix_user == 3) :
                 print("Tu as choisis l'option 3")
                 # Ajouter le systeme supp_mdp
