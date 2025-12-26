@@ -331,8 +331,8 @@ def aff_menu(pseudo):
         print("-="*35)
         print("1 - Ajouter un mot de passe\n")
         print("2 - Gerer les mots de passe\n")
-        print("3 - Option 3 (in build)\n")
-        print("4 - Option 4 (in build)\n")
+        print("3 - Refaire le tutoriel (in build)\n")
+        print("4 - Parametre (in build)\n")
         print("5 - Quitter l'application\n")
         try:
             choix_user = int(input(f"{pseudo} fais ton choix (QUE DES CHIFFRES) :"))
